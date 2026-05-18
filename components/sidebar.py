@@ -9,12 +9,15 @@ def render_sidebar():
 
     st.sidebar.title(t("settings"))
 
-    # API Key Input
-    api_key = st.sidebar.text_input(
-        t("api_key"),
-        type="password",
-        placeholder="gsk_..."
-    )
+    # Automatically load API key from Streamlit secrets
+    try:
+        api_key = st.secrets["GROQ_API_KEY"]
+    except:
+        api_key = ""
+
+    # Show warning if key not found
+    if not api_key:
+        st.sidebar.warning("⚠️ API Key not found in secrets!")
 
     st.sidebar.markdown("---")
 
